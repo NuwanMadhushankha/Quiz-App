@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MCQ Practice Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center min-h-screen">
+  <div id="game-container" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg">
+    <h1 class="text-2xl font-bold text-center mb-4">MCQ Practice Game</h1>
+    <div class="flex justify-between mb-4">
+      <div>Score: <span id="score">0</span>/20</div>
+      <div>Time: <span id="timer">10:00</span></div>
+    </div>
+    <div id="question" class="text-lg font-semibold mb-4"></div>
+    <div id="options" class="grid gap-2"></div>
+    <div id="feedback" class="mt-4 text-center"></div>
+    <button id="new-session-btn" class="mt-4 bg-green-500 text-white px-4 py-2 rounded hidden">Start New Session</button>
+  </div>
+  <div id="session-history" class="mt-4"></div>
+  <script src="/client.js"></script>
+</body>
+</html>
