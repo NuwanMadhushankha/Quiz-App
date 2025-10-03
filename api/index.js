@@ -1,11 +1,19 @@
-// api/index.js
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const app = express();
 
 app.use(express.static(path.join(__dirname, '../public')));  // Serve public/ correctly
 
-const questionsData = require('../questions.json');  // Load synchronously
+let questionsData;
+try {
+  const filePath = path.join(__dirname, '../questions.json');
+  questionsData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  console.log('Successfully loaded questions.json with', questionsData.length, 'questions');
+} catch (error) {
+  console.error('Failed to load questions.json:', error);
+  questionsData = [];  // Fallback to avoid crashes
+}
 
 function getRandomElements(arr, n) {
   const shuffled = arr.sort(() => 0.5 - Math.random());
@@ -26,7 +34,7 @@ app.get('/questions', (req, res) => {
     });
     res.json(formattedQuestions);
   } catch (error) {
-    console.error('Error loading questions:', error);
+    console.error('Error in /questions:', error);
     res.status(500).json({ error: 'Failed to load questions' });
   }
 });
