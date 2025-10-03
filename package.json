@@ -2,9 +2,9 @@
   "name": "mcq-app",
   "version": "1.0.0",
   "description": "MCQ Practice Game",
-  "main": "app.js",
+  "main": "api/index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "express": "^4.18.2"
