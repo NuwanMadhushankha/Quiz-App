@@ -7,12 +7,13 @@ app.use(express.static(path.join(__dirname, '../public')));  // Serve public/ co
 
 let questionsData;
 try {
-  const filePath = path.join(__dirname, '../questions.json');
+  const filePath = path.join(__dirname, '..', 'questions.json');  // Explicit relative path
+  console.log('Attempting to load questions.json from:', filePath);
   questionsData = JSON.parse(fs.readFileSync(filePath, 'utf8'));
   console.log('Successfully loaded questions.json with', questionsData.length, 'questions');
 } catch (error) {
-  console.error('Failed to load questions.json:', error);
-  questionsData = [];  // Fallback to avoid crashes
+  console.error('Failed to load questions.json:', error.message);
+  questionsData = [];  // Fallback to avoid crash
 }
 
 function getRandomElements(arr, n) {
@@ -23,6 +24,9 @@ function getRandomElements(arr, n) {
 app.get('/questions', (req, res) => {
   try {
     const questions = questionsData;
+    if (questions.length === 0) {
+      throw new Error('No questions loaded');
+    }
     const selectedQuestions = getRandomElements(questions, Math.min(questions.length, 20));
     const formattedQuestions = selectedQuestions.map(q => {
       const options = getRandomElements(q.incorrectAnswers, 3).concat(q.correctAnswer);
@@ -34,7 +38,7 @@ app.get('/questions', (req, res) => {
     });
     res.json(formattedQuestions);
   } catch (error) {
-    console.error('Error in /questions:', error);
+    console.error('Error in /questions:', error.message);
     res.status(500).json({ error: 'Failed to load questions' });
   }
 });
